@@ -18,5 +18,5 @@ with open(sys.argv[1]) as inputFile:
 with open(sys.argv[2], 'w') as outputFile:
     for key, value in contextToCategory.items():
         total = float(len(value))
-        commonValue, commonCount = stats(numpy.array(value))
+        commonValue, commonCount = stats.mode(numpy.array(value))
         outputFile.write(str(commonCount[0]/total) + "\t" + commonValue[0] + "\t" + key + "\n")
