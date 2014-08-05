@@ -13,5 +13,5 @@ with open(sys.argv[1]) as inputFile:
     sys.stderr.write(str(recordsProcessed) + " records processed successfully.\n" )
 
 with open(sys.argv[2], 'w') as outputFile:
-    for seeederPath in seederPaths:
+    for seederPath in seederPaths:
         outputFile.write(seederPath + "\n")
