@@ -1,5 +1,6 @@
 import sys
 from collections import defaultdict
+import numpy
 
 class BestsellerRankGroup:
     def __init__(self):
@@ -12,11 +13,14 @@ class BestsellerRankGroup:
         self.positionsOnPage.append(posOnPage)
     def computeRanks(self):
         maxProductsOnPage = max(self.positionsOnPage)
-        self.ranks = []
+        ranks = []
         for i in xrange(0,len(self.urls)):
             currRank = ((self.pageNumbers[i] - 1) * maxProductsOnPage) + self.positionsOnPage[i]
-            self.ranks.append(currRank)
-        return zip(self.urls, self.ranks)
+            ranks.append(currRank)
+        rankArray = numpy.array(ranks)
+        rankArray = (rankArray/max(rankArray)) * 100
+        ranks = list(rankArray)
+        return zip(self.urls, ranks)
 
 def combineBesellerRankGroups(rankGroups):
     result = []
