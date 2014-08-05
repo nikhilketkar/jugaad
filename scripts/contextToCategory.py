@@ -1,5 +1,7 @@
 import sys
-from collections import defaultdict, Counter
+from collections import defaultdict
+import numpy
+from scipy import stats
 
 contextToCategory = defaultdict(list)
 
@@ -15,7 +17,6 @@ with open(sys.argv[1]) as inputFile:
 
 with open(sys.argv[2], 'w') as outputFile:
     for key, value in contextToCategory.items():
-        counter = Counter(value)
-        total = float(sum(counter.values()))
-        category, count = counter.most_common(1)[0]
-        outputFile.write(str(count/total) + "\t" + category + "\t" + key + "\n")
+        total = float(len(value))
+        commonValue, commonCount = stats(numpy.array(value))
+        outputFile.write(str(commonCount[0]/total) + "\t" + commonValue[0] + "\t" + key + "\n")
