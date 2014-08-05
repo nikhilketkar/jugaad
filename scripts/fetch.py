@@ -46,7 +46,7 @@ outputDirectory = sys.argv[2]
 
 with open(sys.argv[1]) as inputFile:
     lines = inputFile.readlines()
-records = [i.strip().split('\t') for i in lines]
+records = [i.strip() for i in lines]
 batchFetcher = BatchFetcher()
 fileCounter = 0
 for currBatch in batch(records, 5):
