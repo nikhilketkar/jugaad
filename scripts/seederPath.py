@@ -5,7 +5,7 @@ seederPaths = set([])
 with open(sys.argv[1]) as inputFile:
     recordsProcessed = 0
     for line in inputFile:
-        PID, MPID, URL, Title, ImageUrl, Category, ScoreFeatures = line.strip().split("\t")
+        PID, MPID, URL, Title, ImageUrl, Category, CategoryPath, ScoreFeatures = line.strip().split("\t")
         firstScoreFeature = ScoreFeatures.split(";;")[0]
         pageNumber, positionOnPage, seederPath, crawlTimeStamp = firstScoreFeature.split("||")
         seederPaths.add(seederPath)
