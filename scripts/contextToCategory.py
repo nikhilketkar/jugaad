@@ -15,7 +15,7 @@ with open(sys.argv[1]) as inputFile:
         recordsProcessed += 1
     sys.stderr.write(str(recordsProcessed) + " records processed successfully.\n" )
 
-with open(sys.argv[1], 'w') as outputFile:
+with open(sys.argv[2], 'w') as outputFile:
     for key, value in contextToCategory.items():
         total = float(len(value))
         commonValue, commonCount = stats.mode(numpy.array(value))
