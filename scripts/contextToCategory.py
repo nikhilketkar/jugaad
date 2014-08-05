@@ -5,7 +5,7 @@ from scipy import stats
 
 contextToCategory = defaultdict(list)
 
-with open("/Users/nikhil/Downloads/sample") as inputFile:
+with open(sys.argv[1]) as inputFile:
     recordsProcessed = 0
     for line in inputFile:
         PID, MPID, URL, Title, ImageUrl, Category, ScoreFeatures = line.strip().split("\t")
@@ -15,7 +15,7 @@ with open("/Users/nikhil/Downloads/sample") as inputFile:
         recordsProcessed += 1
     sys.stderr.write(str(recordsProcessed) + " records processed successfully.\n" )
 
-with open("/Users/nikhil/Downloads/sampleOutput", 'w') as outputFile:
+with open(sys.argv[1], 'w') as outputFile:
     for key, value in contextToCategory.items():
         total = float(len(value))
         commonValue, commonCount = stats.mode(numpy.array(value))
