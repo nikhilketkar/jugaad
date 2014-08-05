@@ -32,7 +32,7 @@ with open(sys.argv[1]) as inputFile:
         PID, MPID, URL, Title, ImageUrl, Category, ScoreFeatures = line.strip().split("\t")
         firstScoreFeature = ScoreFeatures.split(";;")[0]
         pageNumber, positionOnPage, seederPath, crawlTimeStamp = firstScoreFeature.split("||")
-        categoryToProducts[Category][seederPath].add(URL,pageNumber,positionOnPage)
+        categoryToProducts[Category][seederPath].add(URL, float(pageNumber), float(positionOnPage))
         recordsProcessed += 1
 
 with open(sys.argv[2], 'w') as outputFile:
