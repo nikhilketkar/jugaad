@@ -5,7 +5,7 @@ with open(sys.argv[1]) as inputFile:
     for line in inputFile:
         words = line.split('\t')
         url = words[0].strip()
-        category = [4].strip()
+        category = words[4].strip()
         url2category[url] = category
 
 url2category = {}
