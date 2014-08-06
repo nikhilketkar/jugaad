@@ -8,7 +8,6 @@ with open(sys.argv[1]) as inputFile:
         category = words[4].strip()
         url2category[url] = category
 
-url2category = {}
 with open(sys.argv[2]) as inputFile:
     with open(sys.argv[3], 'w') as outputFile:
         for line in inputFile:
