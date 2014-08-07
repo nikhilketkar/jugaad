@@ -14,9 +14,9 @@ with open(sys.argv[1]) as logFile:
                 root = lxml.html.fromstring(htmlData)
                 if status == "SUCCESS":
                     try:
-                        text = " ".join([j.strip() for j in root.cssselect("#s-result-count")[0].itertext()])
+                        text = " ".join([j.encode('ascii', 'ignore').strip() for j in root.cssselect("#s-result-count")[0].itertext()])
                     except:
-                        text = " ".join([j.strip() for j in root.cssselect("#noResultsTitle")[0].itertext()])
+                        text = " ".join([j.encode('ascii', 'ignore').strip() for j in root.cssselect("#noResultsTitle")[0].itertext()])
                     outputFile.write(url + "\t" + text + "\n")                
             except Exception as e:
                 sys.stderr.write("ERROR " + str(e) + "\t" + line)
