@@ -14,4 +14,5 @@ with open(sys.argv[1]) as inputFile:
 
 with open(sys.argv[2], 'w') as outputFile:
     for seederPath in seederPaths:
-        outputFile.write(seederPath + "\n")
+        if "amazon" in seederPath:
+            outputFile.write(seederPath + "\n")
