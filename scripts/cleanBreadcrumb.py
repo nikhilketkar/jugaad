@@ -3,6 +3,7 @@ import sys
 with open(sys.argv[1]) as inputFile:
     for line in inputFile:
         url, searchText = line.strip().split('\t')
+        print searchText
         resultString, breadcrumb = searchText.split(" for ", 2)
         try:
             paginationString, resultCount = resultString.split(" of ")
