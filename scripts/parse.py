@@ -3,7 +3,7 @@ import sys
 import lxml.html
 
 with open(sys.argv[1]) as logFile:
-    with open(sys.argv[2]) as outputFile:
+    with open(sys.argv[2],'w') as outputFile:
         for line in logFile:
             try:
                 words = line.strip().split('\t')
