@@ -2,7 +2,6 @@ import sys
 
 with open(sys.argv[1]) as inputFile:
     for line in inputFile:
-        print line.strip()
         url, searchText = line.strip().split('\t')
         resultString, breadcrumb = searchText.split(" for ")
         try:
@@ -10,4 +9,4 @@ with open(sys.argv[1]) as inputFile:
         except:
             resultCount = resultString
         resultCount = resultCount.replace(",","").replace("results", "")
-        print breadcrumb, "--------", resultCount
+        print [i.strip() for i in breadcrumb.split(':') if i.strip() != "Amazon.com"], "--------", resultCount
