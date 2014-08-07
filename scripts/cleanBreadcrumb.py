@@ -9,4 +9,4 @@ with open(sys.argv[1]) as inputFile:
         except:
             resultCount = resultString
         resultCount = resultCount.replace(",","").replace("results", "")
-        print resultCount, ">".join([i.strip() for i in breadcrumb.split(':') if i.strip() != "Amazon.com"])
+        print resultCount, " > ".join([i.strip() for i in breadcrumb.split(':') if i.strip() != "Amazon.com"])
