@@ -6,6 +6,7 @@ import lxml.html
 
 import sys
 
+
 from gevent.pool import Pool
 
 class BatchFetcher:
