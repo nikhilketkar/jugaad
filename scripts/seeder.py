@@ -8,7 +8,6 @@ import sys
 
 from gevent.pool import Pool
 
-
 class BatchFetcher:
     def __init__(self):
         self.cleanup()
