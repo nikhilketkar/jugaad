@@ -21,6 +21,7 @@ class BatchFetcher:
             sys.stderr.write("FETCH_FAIL\t" + url + "\t" + str(e) + "\n")
     def cleanup(self):
         self.htmlPages = []        
+
     def fetchBatch(self, urls, poolSize):
         self.cleanup()
         pool = Pool(min(len(urls), poolSize))
