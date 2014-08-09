@@ -41,6 +41,7 @@ if __name__ == "__main__":
     for url in urls:
         sys.stderr.write("SEEDED\t" + url + "\n")
 
+
     batchFetcher = BatchFetcher()
     while(len(urls) > 0):
         currWebpages = batchFetcher.fetchBatch(urls, 5)
