@@ -1,7 +1,6 @@
 from gevent import monkey
 monkey.patch_all()
 
-
 import urllib2
 import lxml.html
 
