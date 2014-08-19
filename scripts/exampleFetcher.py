@@ -48,8 +48,9 @@ if __name__ == "__main__":
             try:
                 breadcrumb = " ".join([j.encode('ascii', 'ignore').strip() for j in root.cssselect("#s-result-count")[0].itertext()])
                 sys.stderr.write("BREADCRUMB_SUCCESS\t" + breadcrumb + "\t" + htmlPage[0] + "\n")
-                resultCount = int(" ".join([i for i in root.cssselect('#s-result-count')[0].itertext()]).replace("\n","").strip().split('of')[1].split()[0].strip().replace(",",""))
-                for i in xrange(1, resultCount%60):
-                    sys.stderr.write("OUTPUT\t" + htmlPage + "\t" + htmlPage[0] + "&page=" + i + "\n")
+                # resultCount = int(" ".join([i for i in root.cssselect('#s-result-count')[0].itertext()]).replace("\n","").strip().split('of')[1].split()[0].strip().replace(",",""))
+                # for i in xrange(1, resultCount%60):
+                #     sys.stderr.write("OUTPUT\t" + htmlPage + "\t" + htmlPage[0] + "&page=" + i + "\n")
             except:
                 sys.stderr.write("BREADCRUMB_FAIL\t" + htmlPage[0] + "\n")
+        urls = newurls
