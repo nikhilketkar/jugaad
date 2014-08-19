@@ -5,6 +5,7 @@ from scipy import stats
 
 contextToCategory = defaultdict(list)
 
+
 with open(sys.argv[1]) as inputFile:
     recordsProcessed = 0
     for line in inputFile:

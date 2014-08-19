@@ -1,5 +1,6 @@
 import sys
 
+
 url2category = {}
 with open(sys.argv[1]) as inputFile:
     for line in inputFile:
