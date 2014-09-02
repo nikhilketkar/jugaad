@@ -44,7 +44,6 @@ class BatchFetcher:
         return self.htmlPages
 
 inputFilename = sys.argv[1]
-outputDirectory = sys.argv[2]
 
 with open(sys.argv[1]) as inputFile:
     lines = inputFile.readlines()
