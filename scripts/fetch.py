@@ -3,8 +3,9 @@ monkey.patch_all()
 
 import urllib2
 
-opener = urllib2.build_opener(urllib2.ProxyHandler({'http': 'proxy.production.indix.tv:8080'}))
-opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36')]                                                         
+opener = urllib2.build_opener(urllib2.ProxyHandler({'http': 'cam-dev03.production-mr.indix.tv:3128'}))
+opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36')]             
+                                        
 urllib2.install_opener(opener)           
 
 import sys
@@ -49,8 +50,8 @@ with open(sys.argv[1]) as inputFile:
 records = [i.strip() for i in lines]
 batchFetcher = BatchFetcher()
 fileCounter = 0
-for currBatch in batch(records, 5):
-    currWebpages = batchFetcher.fetchBatch(currBatch, 5)
+for currBatch in batch(records, 50):
+    currWebpages = batchFetcher.fetchBatch(currBatch, 50)
     for record in currWebpages:
         fileCounter += 1
         url = record[0]

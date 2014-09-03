@@ -43,8 +43,10 @@ class BatchFetcher:
         pool.map(self.fetch, urls)
         return self.htmlPages
 
+def removeUnicode(text):
+    return ''.join([i if ord(i) < 128 else ' ' for i in text])
+
 inputFilename = sys.argv[1]
-outputDirectory = sys.argv[2]
 
 with open(sys.argv[1]) as inputFile:
     lines = inputFile.readlines()
@@ -57,6 +59,6 @@ for currBatch in batch(records, 50):
         fileCounter += 1
         query, url, htmlPage = record
         jdata = json.loads(htmlPage)
-        sys.stdout.write(query + "\t" +jdata["category"] + "\n")
+        sys.stdout.write(removeUnicode(query) + "\t" + removeUnicode(jdata["category"]) + "\n")
 
 
