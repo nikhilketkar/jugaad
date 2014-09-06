@@ -57,7 +57,7 @@ for currBatch in batch(records, batchSize):
     for record in currWebpages:
         fileCounter += 1
         url = record[0]
-        htmlPage = record[1]
+        htmlPage = record[1].body
         outputFilename = outputDirectory + "/" + str(fileCounter) + ".html"
         with open(outputFilename, 'w') as outputFile: 
             outputFile.write(htmlPage)
