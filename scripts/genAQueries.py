@@ -1,7 +1,7 @@
 import sys
 import urllib2
 
-def genASearchURL(searchPhrase)
+def genASearchURL(searchPhrase):
     return "http://www.amazon.com/s/&field-keywords=" + urllib2.quote(searchPhrase)
 
 for line in sys.stdin:
