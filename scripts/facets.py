@@ -32,18 +32,22 @@ class BatchFetcher:
                 currTitle = AMAZON_MARKETPLACE_TITLE
             else:
                 currTitle = AMAZON_TITLE            
+
             searchUrl = "http://www.amazon.com/s/&field-keywords=" + urllib2.quote(currTitle)            
             searchPage = urllib2.urlopen(searchUrl).read()
-
             root = lxml.html.fromstring(searchPage)
-            leafUrl = "http://www.amazon.com" + root.cssselect('.childRefinementLink')[0].getparent().attrib['href']
-            leafPage = urllib2.urlopen(searchUrl).read()
-            
+
+            try:
+                leafUrl = "http://www.amazon.com" + root.cssselect('.childRefinementLink')[0].getparent().attrib['href']
+            except:
+                leafUrl = "http://www.amazon.com" + root.cssselect('.boldRefinementLink')[0].getparent().attrib['href']
+
+            leafPage = urllib2.urlopen(leafUrl).read()
             root = lxml.html.fromstring(leafPage)
-            facets = "\t".join([i.text for i in root.cssselect('.refinementLink')])
-            sys.stdout.write("SUCCESS\t" + record.strip() + facets + "\n")            
+            facets = "|".join([i.text.replace("\t","").replace("\n", "") for i in root.cssselect('.refinementLink')])
+            sys.stdout.write("SUCCESS\t" + record.strip() + "\t"+ facets + "\n")            
         except Exception as e:
-            sys.stderr.write("ERROR\t" + record  + "\n")
+            sys.stdout.write("ERROR\t" + record + "\t" + str(e) +  "\n")
     
     def cleanup(self):
         self.htmlPages = []
@@ -55,7 +59,6 @@ class BatchFetcher:
         return self.htmlPages
 
 inputFilename = sys.argv[1]
-outputDirectory = sys.argv[2]
 
 with open(sys.argv[1]) as inputFile:
     lines = inputFile.readlines()
