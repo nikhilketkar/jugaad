@@ -1,9 +1,11 @@
 import sys
 import urllib2
 
-for line in sys.stdin:
-    searchPhrase = line.strip()
-    searchUrl = "http://www.amazon.com/s/&field-keywords=" + urllib2.quote(searchPhrase)
-    sys.stdout.write(searchUrl + "\n")
+def genASearchURL(searchPhrase)
+    return "http://www.amazon.com/s/&field-keywords=" + urllib2.quote(searchPhrase)
 
+for line in sys.stdin:
+    DS_WALGREEN_URL, AMAZON_MARKETPLACE_URL, TITLE, STORE_ID = line.strip().split('\t')
+    result = [DS_WALGREEN_URL, AMAZON_MARKETPLACE_URL, TITLE, STORE_ID, genASearchURL(TITLE)]
+    sys.stdout.write("\t".join(result) + "\n")
 
