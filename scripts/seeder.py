@@ -108,6 +108,8 @@ selectedCategories = ["search-alias=appliances",\
                       "search-alias=videogames",\
                       "search-alias=wine"]
 
+poolSize = int(sys.argv[1])
+
 if __name__ == "__main__":    
     opener = urllib2.build_opener(urllib2.ProxyHandler({'http': 'cam-dev03.production-mr.indix.tv:3128'}))
     opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36')]                                                         
@@ -125,7 +127,7 @@ if __name__ == "__main__":
 
     batchFetcher = BatchFetcher()
     while(len(urls) > 0):
-        currWebpages = batchFetcher.fetchBatch(urls, 50)
+        currWebpages = batchFetcher.fetchBatch(urls, poolSize)
         newurls = []
         for htmlPage in currWebpages:
             root = lxml.html.fromstring(htmlPage[1])
