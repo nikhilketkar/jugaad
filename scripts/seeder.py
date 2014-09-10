@@ -8,6 +8,21 @@ import sys
 
 from gevent.pool import Pool
 
+
+def extractURLs(url, htmlPage):
+    root = lxml.html.fromstring(htmlPage)
+    try:
+        categoryRefinements = root.cssselect('.categoryRefinementsSection')[0]
+        newurls = ["http://www.amazon.com/" + i.getparent().attrib['href'] for i in categoryRefinements.cssselect('.refinementLink')]
+    except:
+        sys.stderr.write("EXPANSION_STOP\t" + url + "\n")
+    try:
+        breadcrumb = " ".join([j.encode('ascii', 'ignore').strip() for j in root.cssselect("#s-result-count")[0].itertext()])
+        sys.stderr.write("BREADCRUMB_SUCCESS\t" + breadcrumb + "\t" + url + "\n")
+    except:
+        sys.stderr.write("BREADCRUMB_FAIL\t" + url + "\n")
+    return newurls
+
 class BatchFetcher:
     def __init__(self):
         self.cleanup()
@@ -15,18 +30,18 @@ class BatchFetcher:
         try:
             res = urllib2.urlopen(url)
             htmlPage = res.read()                    
-            self.htmlPages.append((url, htmlPage))
-            sys.stderr.write("FETCH_SUCCESS\t" + url + "\n")
+            self.newurls.extend(extractURLs(url, htmlPage))
+            sys.stderr.write("PROCESS_SUCCESS\t" + url + "\n")
         except Exception as e:
-            sys.stderr.write("FETCH_FAIL\t" + url + "\t" + str(e) + "\n")
+            sys.stderr.write("PROCESS_FAIL\t" + url + "\t" + str(e) + "\n")
     def cleanup(self):
-        self.htmlPages = []        
+        self.newurls = []        
 
     def fetchBatch(self, urls, poolSize):
         self.cleanup()
         pool = Pool(min(len(urls), poolSize))
         pool.map(self.fetch, urls)
-        return self.htmlPages
+        return self.newurls
 """
 <option selected="selected" value="search-alias=aps">All Departments</option>
 <option value="search-alias=instant-video">Amazon Instant Video</option>
@@ -76,7 +91,7 @@ selectedCategories = ["search-alias=hpc",\
                       "search-alias=grocery",\
                       "search-alias=beauty",\
                       "search-alias=baby-products",\
-                      "search-alias=toys-and-games",\
+#                      "search-alias=toys-and-games",\
                       "search-alias=pets",\
                       "search-alias=garden"]
 
@@ -96,25 +111,9 @@ if __name__ == "__main__":
     for url in urls:
         sys.stderr.write("SEEDED\t" + url + "\n")
 
-
     batchFetcher = BatchFetcher()
     while(len(urls) > 0):
-        currWebpages = batchFetcher.fetchBatch(urls, poolSize)
-        newurls = []
-        for htmlPage in currWebpages:
-            root = lxml.html.fromstring(htmlPage[1])
-            try:
-                categoryRefinements = root.cssselect('.categoryRefinementsSection')[0]
-                currnewurls = ["http://www.amazon.com/" + i.getparent().attrib['href'] for i in categoryRefinements.cssselect('.refinementLink')]
-                newurls.extend(currnewurls)
-            except:
-                sys.stderr.write("EXPANSION_STOP\t" + htmlPage[0] + "\n")
-            try:
-                breadcrumb = " ".join([j.encode('ascii', 'ignore').strip() for j in root.cssselect("#s-result-count")[0].itertext()])
-                sys.stderr.write("BREADCRUMB_SUCCESS\t" + breadcrumb + "\t" + htmlPage[0] + "\n")
-            except:
-                sys.stderr.write("BREADCRUMB_FAIL\t" + htmlPage[0] + "\n")
-        urls = newurls
+        urls = batchFetcher.fetchBatch(urls, poolSize)
         for url in urls:
             sys.stderr.write("SEEDED\t" + url + "\n")
     
