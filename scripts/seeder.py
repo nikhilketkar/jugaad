@@ -27,28 +27,17 @@ class BatchFetcher:
         pool = Pool(min(len(urls), poolSize))
         pool.map(self.fetch, urls)
         return self.htmlPages
-
 """
 <option selected="selected" value="search-alias=aps">All Departments</option>
 <option value="search-alias=instant-video">Amazon Instant Video</option>
-<option value="search-alias=mobile-apps">Apps for Android</option>
-<option value="search-alias=popular">CDs & Vinyl</option>
-<option value="search-alias=financial">Credit and Payment Cards</option>
-<option value="search-alias=digital-music">Digital Music</option>
-<option value="search-alias=gift-cards">Gift Cards Store</option>
-<option value="search-alias=digital-text">Kindle Store</option>
-<option value="search-alias=magazines">Magazine Subscriptions</option>
-<option value="search-alias=movies-tv">Movies & TV</option>
-<option value="search-alias=pantry">Prime Pantry</option>
-"""
-
-"""
 <option value="search-alias=appliances">Appliances</option>
+<option value="search-alias=mobile-apps">Apps & Games</option>
 <option value="search-alias=arts-crafts">Arts, Crafts & Sewing</option>
 <option value="search-alias=automotive">Automotive</option>
 <option value="search-alias=baby-products">Baby</option>
 <option value="search-alias=beauty">Beauty</option>
 <option value="search-alias=stripbooks">Books</option>
+<option value="search-alias=popular">CDs & Vinyl</option>
 <option value="search-alias=mobile">Cell Phones & Accessories</option>
 <option value="search-alias=fashion">Clothing, Shoes & Jewelry</option>
 <option value="search-alias=fashion-womens">&#160;&#160;&#160;Women</option>
@@ -58,16 +47,23 @@ class BatchFetcher:
 <option value="search-alias=fashion-baby">&#160;&#160;&#160;Baby</option>
 <option value="search-alias=collectibles">Collectibles & Fine Art</option>
 <option value="search-alias=computers">Computers</option>
+<option value="search-alias=financial">Credit and Payment Cards</option>
+<option value="search-alias=digital-music">Digital Music</option>
 <option value="search-alias=electronics">Electronics</option>
+<option value="search-alias=gift-cards">Gift Cards Store</option>
 <option value="search-alias=grocery">Grocery & Gourmet Food</option>
 <option value="search-alias=hpc">Health & Personal Care</option>
 <option value="search-alias=garden">Home & Kitchen</option>
 <option value="search-alias=industrial">Industrial & Scientific</option>
+<option value="search-alias=digital-text">Kindle Store</option>
 <option value="search-alias=fashion-luggage">Luggage & Travel Gear</option>
+<option value="search-alias=magazines">Magazine Subscriptions</option>
+<option value="search-alias=movies-tv">Movies & TV</option>
 <option value="search-alias=mi">Musical Instruments</option>
 <option value="search-alias=office-products">Office Products</option>
 <option value="search-alias=lawngarden">Patio, Lawn & Garden</option>
 <option value="search-alias=pets">Pet Supplies</option>
+<option value="search-alias=pantry">Prime Pantry</option>
 <option value="search-alias=software">Software</option>
 <option value="search-alias=sporting">Sports & Outdoors</option>
 <option value="search-alias=tools">Tools & Home Improvement</option>
@@ -76,37 +72,13 @@ class BatchFetcher:
 <option value="search-alias=wine">Wine</option>
 """
 
-selectedCategories = ["search-alias=appliances",\
-                      "search-alias=arts-crafts",\
-                      "search-alias=automotive",\
-                      "search-alias=baby-products",\
-                      "search-alias=beauty",\
-                      "search-alias=stripbooks",\
-                      "search-alias=mobile",\
-                      "search-alias=fashion",\
-                      "search-alias=fashion-womens",\
-                      "search-alias=fashion-mens",\
-                      "search-alias=fashion-girls",\
-                      "search-alias=fashion-boys",\
-                      "search-alias=fashion-baby",\
-                      "search-alias=collectibles",\
-                      "search-alias=computers",\
-                      "search-alias=electronics",\
+selectedCategories = ["search-alias=hpc",\
                       "search-alias=grocery",\
-                      "search-alias=hpc",\
-                      "search-alias=garden",\
-                      "search-alias=industrial",\
-                      "search-alias=fashion-luggage",\
-                      "search-alias=mi",\
-                      "search-alias=office-products",\
-                      "search-alias=lawngarden",\
-                      "search-alias=pets",\
-                      "search-alias=software",\
-                      "search-alias=sporting",\
-                      "search-alias=tools",\
+                      "search-alias=beauty",\
+                      "search-alias=baby-products",\
                       "search-alias=toys-and-games",\
-                      "search-alias=videogames",\
-                      "search-alias=wine"]
+                      "search-alias=pets",\
+                      "search-alias=garden"]
 
 poolSize = int(sys.argv[1])
 
