@@ -8,7 +8,7 @@ for line in sys.stdin:
             data = inputFile.read()
         root = lxml.html.fromstring(data)
         refinementURLs = ["http://www.amazon.com" + i.getparent().attrib['href'] for i in root.cssselect('.childRefinementLink')]
-        if len(leafUrls) < 1:
+        if len(refinementURLs) < 1:
             refinementURLs = ["http://www.amazon.com" + i.getparent().attrib['href'] for i in root.cssselect('.boldRefinementLink')]
         if len(leafUrls) > 0:
             for refinementURL in refinementURLs:
