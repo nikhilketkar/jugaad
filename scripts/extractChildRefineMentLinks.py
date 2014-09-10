@@ -10,7 +10,7 @@ for line in sys.stdin:
         refinementURLs = ["http://www.amazon.com" + i.getparent().attrib['href'] for i in root.cssselect('.childRefinementLink')]
         if len(refinementURLs) < 1:
             refinementURLs = ["http://www.amazon.com" + i.getparent().attrib['href'] for i in root.cssselect('.boldRefinementLink')]
-        if len(leafUrls) > 0:
+        if len(refinementURLs) > 0:
             for refinementURL in refinementURLs:
                 sys.stdout.write("SUCCESS" + "\t" + AMAZON_URL + "\t" + refinementURL + "\n")
         else:
