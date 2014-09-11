@@ -53,18 +53,18 @@ def getAProducts(facetName, givenUrl):
     try:
         refinement, urls = getRefinementAndURLs(facetName, givenUrl)
         sys.stderr.write("SEED_SUCCESS" + "\t" + givenUrl  +  "\n")
+        ASINS = []
+        for url in urls:
+            try:
+                currASINS = getProducts(url)            
+                for asin in currASINS:
+                    sys.stderr.write("RESULT" + "\t" + facetName + "\t" + refinement + "\t" + asin + "\n")
+                ASINS.extend(currASINS)
+                sys.stderr.write("PROCESSED" + "\t" + url  +  "\n")
+            except:
+                sys.stderr.write("ERROR" + "\t" + url  +  "\n")
     except:
         sys.stderr.write("SEED_ERROR" + "\t" + givenUrl  +  "\n")
-    ASINS = []
-    for url in urls:
-        try:
-            currASINS = getProducts(url)            
-            for asin in currASINS:
-                sys.stderr.write("RESULT" + "\t" + facetName + "\t" + refinement + "\t" + asin + "\n")
-            ASINS.extend(currASINS)
-            sys.stderr.write("PROCESSED" + "\t" + url  +  "\n")
-        except:
-            sys.stderr.write("ERROR" + "\t" + url  +  "\n")
 
 def processRecord(record):
     facet, url = record
