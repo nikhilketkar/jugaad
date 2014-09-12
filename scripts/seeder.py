@@ -8,8 +8,12 @@ import sys
 
 from gevent.pool import Pool
 
+opener = urllib2.build_opener(urllib2.ProxyHandler({'http': 'cam-dev03.production-mr.indix.tv:3128'}))
+opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36')]                                                       
+urllib2.install_opener(opener)           
 
 def extractURLs(url, htmlPage):
+    newurls = []
     root = lxml.html.fromstring(htmlPage)
     try:
         categoryRefinements = root.cssselect('.categoryRefinementsSection')[0]
@@ -23,6 +27,11 @@ def extractURLs(url, htmlPage):
         sys.stderr.write("BREADCRUMB_FAIL\t" + url + "\n")
     return newurls
 
+def getPage(url):
+    res = urllib2.urlopen(url)
+    htmlPage = res.read()                    
+    return htmlPage
+
 class BatchFetcher:
     def __init__(self):
         self.cleanup()
@@ -30,7 +39,7 @@ class BatchFetcher:
         try:
             res = urllib2.urlopen(url)
             htmlPage = res.read()                    
-            self.newurls.extend(extractURLs(url, htmlPage))
+            self.newurls.extend(extractURLs(url, getPage(url)))
             sys.stderr.write("PROCESS_SUCCESS\t" + url + "\n")
         except Exception as e:
             sys.stderr.write("PROCESS_FAIL\t" + url + "\t" + str(e) + "\n")
@@ -42,6 +51,7 @@ class BatchFetcher:
         pool = Pool(min(len(urls), poolSize))
         pool.map(self.fetch, urls)
         return self.newurls
+
 """
 <option selected="selected" value="search-alias=aps">All Departments</option>
 <option value="search-alias=instant-video">Amazon Instant Video</option>
@@ -91,17 +101,12 @@ selectedCategories = ["search-alias=hpc",\
                       "search-alias=grocery",\
                       "search-alias=beauty",\
                       "search-alias=baby-products",\
-#                      "search-alias=toys-and-games",\
+                      "search-alias=toys-and-games",\
                       "search-alias=pets",\
                       "search-alias=garden"]
 
-poolSize = int(sys.argv[1])
-
 if __name__ == "__main__":    
-    opener = urllib2.build_opener(urllib2.ProxyHandler({'http': 'cam-dev03.production-mr.indix.tv:3128'}))
-    opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36')]                                                         
-    urllib2.install_opener(opener)           
-    
+    poolSize = int(sys.argv[1])    
     url = "http://www.amazon.com/"
     res = urllib2.urlopen(url)
     htmlPage = res.read()                    
@@ -110,7 +115,6 @@ if __name__ == "__main__":
     urls = ["http://www.amazon.com/s/ref=nb_sb_noss?url=" + urllib2.quote(i) + "&field-keywords=" for i in searchAliases if i in selectedCategories]
     for url in urls:
         sys.stderr.write("SEEDED\t" + url + "\n")
-
     batchFetcher = BatchFetcher()
     while(len(urls) > 0):
         urls = batchFetcher.fetchBatch(urls, poolSize)
