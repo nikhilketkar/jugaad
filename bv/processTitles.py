@@ -15,8 +15,8 @@ def cleanTitle(title):
     tokens = [i.encode('string-escape') for i in tokens]
     lowerCaseTokens = [i.lower() for i in tokens]
     punctuationRemoved = [punctuationRemove.sub("", i) for i in lowerCaseTokens]
-    digitsRemoved = [digitsRemove.sub("", i) for i in punctuationRemoved]
-    emptyRemoved = [i for i in digitsRemoved if len(i) > 0]
+    # digitsRemoved = [digitsRemove.sub("", i) for i in punctuationRemoved]
+    emptyRemoved = [i for i in punctuationRemoved if len(i) > 0]
     return " ".join(emptyRemoved)
 
 for line in sys.stdin:
@@ -25,6 +25,6 @@ for line in sys.stdin:
         words = [i.strip() for i in words]
         title = words[4]
         words.append(cleanTitle(title))
-        sys.stdout.write("\t".join(words) + "\n")
+        sys.stdout.write("SUCCESS\t" + "\t".join(words) + "\n")
     except:
-        pass
+        sys.stdout.write("ERROR\t" + line)
